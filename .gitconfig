@@ -1,0 +1,34 @@
+[http]
+	sslVerify = false
+	postBuffer = 1M
+[color]
+        branch = auto
+        diff = auto
+        interactive = auto
+	status = auto
+[credential "*"]
+	helper = cache --timeout=604800 #one week
+[core]
+        editor = vim
+[merge]
+        tool = mergetool
+[diff]
+[alias]
+        alias = !git config -l | grep alias | cut -c 7-
+	c = commit
+	cm = "!f(){ git commit -m \"$*\"; }; f"
+        di = diff
+        ds = diff --staged
+        dw = diff --color-words
+        l = !git ll | head -n10
+	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
+	lll = !git ll --stat
+	lc = !git lll --no-merges ORIG_HEAD..
+	s = status
+	unadd = reset HEAD
+[push]
+	default = simple
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
