@@ -40,30 +40,44 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+function color_my_prompt {
+    local __user_and_host="\[\033[01;32m\]\u@\h"
+    local __cur_location="\[\033[01;34m\][\w]"
+    local __git_branch_color="\[\033[31m\]"
+    #local __git_branch="\`ruby -e \"print (%x{git branch 2> /dev/null}.grep(/^\*/).first || '').gsub(/^\* (.+)$/, '(\1) ')\"\`"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __prompt_tail='`if [ $(id -u) -eq 0 ]; then echo "\n\[\033[31m\]#"; else echo "\n\[\033[35m\]$"; fi`'
+    local __last_color="\[\033[00m\]"
+	local __jobs='`if [ $(jobs | wc -l | tr -d " ") -gt 0 ]; then echo "\[\033[01;32m\](jobs:\j)";fi`'
+	local __time=' \[\033[01;32m\][\t]'
+    export PS1="$__user_and_host $__cur_location$__jobs$__time $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+}
+color_my_prompt
+
+#if [ "$color_prompt" = yes ]; then
+#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#else
+#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
+#unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*)
+#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#    ;;
+#*)
+#    ;;
+#esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -100,4 +114,8 @@ fi
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+
+if [ -f /home/T0101841/git/environment/setproxy_fn ]; then
+	. /home/T0101841/git/environment/setproxy_fn
 fi
