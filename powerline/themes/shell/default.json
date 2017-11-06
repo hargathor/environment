@@ -1,18 +1,7 @@
 {
   "default_module": "powerline.segments.common",
   "segments": {
-    "right": [
-	    {
-	    	"function": "powerline_docker.docker",
-	    	"priority": 30,
-		"args": {
-	        	"base_url": "tcp://docker.cylons.kingsecret.net:2375",
-	        	"timeout": 2,
-	        	"use_tls": false
-		}
-	    }
-    ],
-    "left": [
+   "left": [
     {
     	"function": "powerline_docker.docker",
     	"priority": 30,
