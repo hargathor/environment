@@ -1,3 +1,6 @@
+set t_Co=256
+set bg=dark
+
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
