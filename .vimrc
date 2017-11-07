@@ -59,6 +59,7 @@ call plug#end()
 " Vim conf "
 set nu
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+set mouse=a
 
 " NerdTree"
 "autocmd vimenter * NERDTree
