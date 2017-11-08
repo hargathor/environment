@@ -102,7 +102,13 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # If not running interactively, do not do anything
 [[ $- != *i* ]] && return
-[[ -z "$TMUX" ]] && exec tmux
+if [[ -z "$TMUX" && -z "$(tmux ls | grep base)" ]]; then
+	exec tmux new -s base
+fi
+if [[ -z "$TMUX" ]]; then
+	exec tmux attach -t base
+fi
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
