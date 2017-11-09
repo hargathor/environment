@@ -286,3 +286,5 @@ bind C-a send-prefix
 # move status line to top
 #set -g status-position top
 set -g status-position bottom 
+
+set-window-option -g aggressive-resize
