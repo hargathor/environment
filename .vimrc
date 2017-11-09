@@ -21,6 +21,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 " Using a non-master branch
@@ -43,16 +44,12 @@ Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
-"Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'airblade/vim-gitgutter'
 
 Plug 'majutsushi/tagbar'
-
 Plug 'Townk/vim-autoclose'
 
 " Markdown / Writting
@@ -92,6 +89,13 @@ augroup markdown
     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 augroup END
 
+" Vim-pencil Configuration
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+augroup END
+
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -114,6 +118,9 @@ let g:airline#extensions#tabline#enabled = 1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" Make Autoclose work with YCM
+let g:AutoClosePumvisible = {"ENTER": "", "ESC": ""}
 
 """""""""""""""""""""""""""""""""""""
 " Mappings configurationn
