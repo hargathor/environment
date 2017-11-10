@@ -288,3 +288,4 @@ bind C-a send-prefix
 set -g status-position bottom 
 
 set-window-option -g aggressive-resize
+bind-key y run 'xclip -o | tmux load-buffer -'
