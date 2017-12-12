@@ -19,3 +19,15 @@ npm install -g typescript
 cd ~/.vim/plugged/YouCompleteMe
 ./install.py --clang-completer --rust-completer --js-completer 
 ````
+
+### Patched Powerline fonts
+```bash
+# clone
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+````
