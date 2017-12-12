@@ -1,5 +1,5 @@
-# environment
-Environment files such as vimrc, bashrc, etc....
+# Dot files
+Dot files such as vimrc, bashrc, etc....
 
 ## Installation
 
@@ -15,6 +15,7 @@ Type `:PlugInstall`
 ```bash
 sudo apt-get install build-essential cmake
 sudo apt-get install python-dev python3-dev
+npm install -g typescript
 cd ~/.vim/plugged/YouCompleteMe
-./install.py --all
+./install.py --clang-completer --rust-completer --js-completer 
 ````
