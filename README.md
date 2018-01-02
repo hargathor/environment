@@ -11,14 +11,15 @@ vim
 
 Type `:PlugInstall`
 
-### YCM Completer 
+For nvim-completion-manager you need to install pip modules for python3
+
 ```bash
-sudo apt-get install build-essential cmake
-sudo apt-get install python-dev python3-dev
-npm install -g typescript
-cd ~/.vim/plugged/YouCompleteMe
-./install.py --clang-completer --rust-completer --js-completer 
-````
+# neovim is the required pip module
+# jedi for python completion
+# psutil (optional)
+# setproctitle (optional)
+pip3 install --user neovim jedi psutil setproctitle
+```
 
 ### Patched Powerline fonts
 ```bash
