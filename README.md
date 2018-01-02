@@ -30,5 +30,7 @@ cd fonts
 ./install.sh
 # clean-up a bit
 cd ..
-rm -rf fonts
+rm -rf fonts 
+cd ~/.config/
+ln -sf <PROJECT_PATH>/powerline
 ````
