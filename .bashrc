@@ -140,8 +140,9 @@ powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
 POWERLINE_BASH_SELECT=1
 . /home/hargathor/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
-
+if [ -f /home/T0101841/git/environment/setproxy_fn ]; then
+        . /home/T0101841/git/environment/setproxy_fn
+fi
 if [ ! -z "$(type -P neofetch)" ]; then
     neofetch
 fi
-export IDF_PATH=/home/hargathor/esp/esp-idf
