@@ -144,3 +144,4 @@ POWERLINE_BASH_SELECT=1
 if [ ! -z "$(type -P neofetch)" ]; then
     neofetch
 fi
+export IDF_PATH=/home/hargathor/esp/esp-idf
