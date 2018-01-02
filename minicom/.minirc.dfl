@@ -1,0 +1,4 @@
+# Fichier généré automatiquement - utilisez « minicom -s »
+# pour changer les paramètres
+pu port             /dev/ttyUSB0
+pu escape-key       ^B           
