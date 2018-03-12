@@ -5,6 +5,8 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_TIME=fr_FR.UTF-8
+#POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -12,21 +14,19 @@ export LC_TIME=fr_FR.UTF-8
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 powerline-daemon -q
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
-. ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+. /usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
 if [ -f ~/git/environment/setproxy_fn ]; then
         . ~/git/environment/setproxy_fn
 fi
 
 # If not running interactively, do not do anything
-[[ $- != *i* ]] && return
-if [[ -z "$TMUX" && -z "$(tmux ls | grep base)" ]]; then
-	exec tmux new -s base
-fi
-if [[ -z "$TMUX" ]]; then
-	exec tmux attach -t base
-fi
+#[[ $- != *i* ]] && return
+#if [[ -z "$TMUX" && -z "$(tmux ls | grep base)" ]]; then
+#	exec tmux new -s base
+#fi
+#if [[ -z "$TMUX" ]]; then
+#	exec tmux attach -t base
+#fi
 
  
 # Load the oh-my-zsh's library
@@ -47,10 +47,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
-
-POWERLEVEL9K_MODE='awesome-fontconfig'
-POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
-
+# powerlevel9k theme
 antigen theme bhilburn/powerlevel9k powerlevel9k
 
 # Tell antigen that you're done
