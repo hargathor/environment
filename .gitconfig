@@ -32,3 +32,6 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+[user]
+	email = 3949704+hargathor@users.noreply.github.com
+	name = hargathor
