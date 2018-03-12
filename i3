@@ -1,1 +1,0 @@
-/home/hargathor/.config/i3

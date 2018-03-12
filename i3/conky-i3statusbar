@@ -1,0 +1,197 @@
+--[[
+#=====================================================================================
+#                               i3 on linux mint 18 cinnamon
+# Date    : 21/07/2017
+# Version : v2.0.1
+# Author  : Erik Dubois at http://www.erikdubois.be
+# License : Distributed under the terms of GNU GPL version 2 or later
+# Documentation English: http://erikdubois.be/category/linux/i3/
+#======================================================================================
+
+#======================================================================================
+#
+# Source : c
+# alternative : sudo apt list --upgradable | wc -l
+#======================================================================================
+
+
+]]
+
+conky.config = {
+    out_to_x = false,
+    own_window = false,
+    out_to_console = true,
+    background = false,
+    max_text_width = 0,
+    update_interval = 1.0,
+    total_run_times = 0,
+    short_units = true,
+    if_up_strictness = "address",
+    use_spacer = "left",
+    override_utf8_locale = true,
+    cpu_avg_samples = 2
+}
+
+conky.text = [[
+  [
+    {
+      #"full_text": " ${execi 6000 lsb_release -d | grep 'Descr'|awk {'print $2 " " $3" " $4" " $5'}} $kernel ",
+      "full_text": " $kernel ",
+      "color": "\#fdf6e3",
+      #"background": "\#dc322f",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#dc322f",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${cpu}%, ${execi 5 sensors|grep 'Core 0'|awk '{print $3}'} ",
+      "color": "\#fdf6e3",
+      #"background": "\#dc322f",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#e69722",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${fs_free /}/${fs_size /}(${fs_used_perc /}%) ",
+      "color": "\#fdf6e3",
+      #"background": "\#e69722",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${mem}/${memmax} (${memperc}%) ",
+      "color": "\#fdf6e3",
+      #"background": "\#e69722",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#2aa198",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #linux mint
+      "full_text": "  ${texeci 1800 sleep 5; aptitude search '~U' | wc -l} updates ",
+      #arch
+      #"full_text": "  ${texeci 1800 sleep 5; checkupdates | wc -l}+${texeci 1800 sleep 5; packer --quickcheck | wc -l} updates",
+      "color": "\#fdf6e3",
+      #"background": "\#2aa198",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#2aa198",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #check name of ethernet/wireless with ip addr or ifconfig
+      "full_text": "${if_up enx0050b68aa58c}   ${addr enx0050b68aa58c} up: ${upspeed enx0050b68aa58c}/${totalup enx0050b68aa58c} down: ${downspeed enx0050b68aa58c}/${totaldown enx0050b68aa58c} ${endif}",
+      "color": "\#fdf6e3",
+      #"background": "\#2aa198",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #check name of ethernet/wireless with ip addr or ifconfig
+      "full_text": "${if_up enp0s31f6}   ${addr enp0s31f6} up: ${upspeed enp0s31f6}/${totalup enp0s31f6} down: ${downspeed enp0s31f6}/${totaldown enp0s31f6} ${endif}",
+      "color": "\#fdf6e3",
+      #"background": "\#2aa198",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #check name of ethernet/wireless with ip addr or ifconfig
+      "full_text": "${if_up wlp4s0} \uf1eb ${addr wlp4s0} up: ${upspeed wlp4s0}/${totalup wlp4s0} down: ${downspeed wlp4s0}/${totaldown wlp4s0} ${endif}",
+      "color": "\#fdf6e3",
+      #"background": "\#2aa198",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${texeci 300 wget http://checkip.dyndns.org -O - -o /dev/null | cut -d : -f 2 | cut -d \< -f 1}",
+      "color": "\#fdf6e3",
+      #"background": "\#2aa198",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#859900",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #linux mint
+      "full_text":  " ${battery_time} ⚡${battery_percent}% ",
+      "color": "\#fdf6e3",
+      #"background": "\#859900",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#859900",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #linux mint
+      "full_text": "  ${exec amixer get Master | grep % | awk '{print $4}' | sed 's/[^0-9\%]//g' | head -n1} ",
+      #arch linux
+      #"full_text": "  ${exec amixer get Master | grep % | awk '{print $5}' | sed 's/[^0-9\%]//g' | head -n1} ",
+      "color": "\#fdf6e3",
+      #"background": "\#859900",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      #linux mint
+      "full_text": " ${if_empty ${exec hciconfig | grep DOWN}} ${else} ${endif}",
+      "color": "\#fdf6e3",
+      #"background": "\#859900",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": " | ",
+      "color": "\#6c71c4",
+      "background": "\#2F2F2F",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${time %a, %d/%m/%y} ",
+      "color": "\#fdf6e3",
+      #"background": "\#6c71c4",
+      "separator": true,
+      "separator_block_width": 0
+    },
+    {
+      "full_text": "  ${time %H:%M:%S} ",
+      "color": "\#fdf6e3",
+      #"background": "\#6c71c4",
+      "separator": true,
+      "separator_block_width": 0
+    }
+  ],
+]]
