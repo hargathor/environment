@@ -1,0 +1,57 @@
+export TERM="xterm-256color"
+source $HOME/antigen.zsh
+export PATH="$HOME/.cargo/bin:$PATH"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_TIME=fr_FR.UTF-8
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+. ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
+if [ -f ~/git/environment/setproxy_fn ]; then
+        . ~/git/environment/setproxy_fn
+fi
+
+# If not running interactively, do not do anything
+[[ $- != *i* ]] && return
+if [[ -z "$TMUX" && -z "$(tmux ls | grep base)" ]]; then
+	exec tmux new -s base
+fi
+if [[ -z "$TMUX" ]]; then
+	exec tmux attach -t base
+fi
+
+ 
+# Load the oh-my-zsh's library
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle gitignore
+antigen bundle pip
+antigen bundle lein
+antigen bundle command-not-found
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+# Extra zsh completions
+antigen bundle zsh-users/zsh-completions
+# Fish-like auto suggestions
+antigen bundle zsh-users/zsh-autosuggestions
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
+
+antigen theme bhilburn/powerlevel9k powerlevel9k
+
+# Tell antigen that you're done
+antigen apply
