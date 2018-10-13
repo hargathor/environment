@@ -5,16 +5,23 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_TIME=fr_FR.UTF-8
-#POWERLEVEL9K_MODE='awesome-fontconfig'
+
+# Personnal aliases
+alias ll="ls -la --color=auto"
+
+# POWERLEVEL9K environment variables
+# POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir virtualenv rbenv)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vcs history time)
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 powerline-daemon -q
-. /usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
+. ~/.local/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
 if [ -f ~/git/environment/setproxy_fn ]; then
         . ~/git/environment/setproxy_fn
 fi
@@ -28,7 +35,6 @@ fi
 #	exec tmux attach -t base
 #fi
 
- 
 # Load the oh-my-zsh's library
 antigen use oh-my-zsh
 
