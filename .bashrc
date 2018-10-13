@@ -143,6 +143,11 @@ POWERLINE_BASH_SELECT=1
 if [ -f ~/git/environment/setproxy_fn ]; then
         . ~/git/environment/setproxy_fn
 fi
-if [ ! -z "$(type -P neofetch)" ]; then
-    neofetch
-fi
+# if [ ! -z "$(type -P neofetch)" ]; then
+#     neofetch
+# fi
+export PATH="$HOME/.cargo/bin:$PATH"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_TIME=fr_FR.UTF-8
