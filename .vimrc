@@ -33,9 +33,28 @@ Plug 'roxma/nvim-completion-manager'
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+"  " assuming your using vim-plug: https://github.com/junegunn/vim-plug
+"  Plug 'ncm2/ncm2'
+"  " ncm2 requires nvim-yarp
+"  Plug 'roxma/nvim-yarp'
+"  " some completion sources
+"  Plug 'ncm2/ncm2-bufword'
+"  Plug 'ncm2/ncm2-tmux'
+"  Plug 'ncm2/ncm2-path'
+"  Plug 'ncm2/ncm2-jedi'
+
+" enable ncm2 for all buffer
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" note that must keep noinsert in completeopt, the others is optional
+set completeopt=noinsert,menuone,noselect
 " Multiple Plug commands can be written in a single line using | separators
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
+"Plug 'Shougo/neosnippet'
+"Plug 'Shougo/neosnippet-snippets'
+Plug 'artur-shaik/vim-javacomplete2'
+Plug 'neomake/neomake'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -65,7 +84,8 @@ Plug 'jtratner/vim-flavored-markdown'
 Plug 'rust-lang/rust.vim' 
 
 Plug 'maksimr/vim-jsbeautify'
-Plug 'w0rp/ale'
+" Conflicting with neomake
+" Plug 'w0rp/ale'
 
 Plug 'alpertuna/vim-header'
 
@@ -111,10 +131,10 @@ noremap <C-K> {
 " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Markdown Syntax Support
-augroup markdown
-    au!
-    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
+" augroup markdown
+"     au!
+"     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+" augroup END
 
 " Enable omni completion.
 " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -122,6 +142,66 @@ augroup END
 " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Javacomplete2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" smart typing
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+" insert class
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+" add all missing import
+nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+" Remove unused imports
+nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
+
+" Neomake
+"  " When writing a buffer (no delay).
+" call neomake#configure#automake('w')
+"  " When writing a buffer (no delay), and on normal mode changes (after 750ms).
+call neomake#configure#automake('nw', 750)
+"  " When reading a buffer (after 1s), and when writing (no delay).
+" call neomake#configure#automake('rw', 1000)
+"  " Full config: when writing or reading a buffer, and on changes in insert and
+"  " normal mode (after 1s; no delay when writing).
+" call neomake#configure#automake('nrwi', 500)
+
 
 " NerdTree"
 " autocmd vimenter * NERDTree
@@ -273,33 +353,6 @@ map <C-m> :TagbarToggle<CR>
 " effect and the menuone is responsible for the latter
 set completeopt=longest,menuone
 
-
-"Snippets
-"UltiSnips is the snippet framework
-"Tons of default snippets provided by vim-snippets
-"Disable the traditional expand key
-"Use a function instead, triggered on enter when completion window is open
-"I do so because I use the enter key as my expand key
-"and this prevent a bug which makes the key useless otherwise
-"Not necessary to remap jump forward/backward as it is
-"done on the autocompletion framework
-"let g:UltiSnipsJumpForwardTrigger=\"<tab>"
-"let g:UltiSnipsJumpBackwardTrigger=\"<S-tab>"
-"TODO: Disable default snippets for some languages
-let g:UltiSnipsExpandTrigger="<nop>"
-let g:ulti_expand_or_jump_res=0
-function! <SID>ExpandSnippetOrReturn()
-  let snippet=UltiSnips#ExpandSnippetOrJump()
-  if g:ulti_expand_or_jump_res > 0
-    return snippet
-  else
-    return "\<CR>"
-  endif
-endfunction
-inoremap <expr> <CR> pumvisible() ?
-      \"<C-R>=<SID>ExpandSnippetOrReturn()<CR>" : "\<CR>"
-
-
 "Ale colors
 "Ale is the syntax processing framework
 "Intrusive colors
@@ -314,3 +367,33 @@ packloadall
 " Load all of the helptags now, after plugins have been loaded.
 " All messages and errors will be ignored.
 silent! helptags ALL
+
+" Neovim completion manager (NCM2)
+" supress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line.
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" wrap existing omnifunc
+" Note that omnifunc does not run in background and may probably block the
+" editor. If you don't want to be blocked by omnifunc too often, you could
+" add 180ms delay before the omni wrapper:
+"  'on_complete': ['ncm2#on_complete#delay', 180,
+"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+au User Ncm2Plugin call ncm2#register_source({
+        \ 'name' : 'css',
+        \ 'priority': 9, 
+        \ 'subscope_enable': 1,
+        \ 'scope': ['css','scss'],
+        \ 'mark': 'css',
+        \ 'word_pattern': '[\w\-]+',
+        \ 'complete_pattern': ':\s*',
+        \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
+        \ })
