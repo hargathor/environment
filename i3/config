@@ -137,7 +137,9 @@ bindsym mod1+F3 exec --no-startup-id xfce4-appfinder
 bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto Sans 13"
 
 # start rofi small
-bindsym $mod+F12 exec --no-startup-id rofi -show run -font "Noto Sans 13"
+#bindsym $mod+F12 exec --no-startup-id rofi -show run -font "Noto Sans 13"
+bindsym $mod+F12 exec --no-startup-id rofi -show combi
+ 
 
 # gmrun
 bindsym mod1+F2 exec --no-startup-id gmrun
@@ -358,8 +360,7 @@ assign [class="sublime-text|sublime_text|Sublime_text|subl|Subl|subl3|Subl3"]   
 assign [class="Xed|xed|Brackets|Atom|Code|Geany"]                                   → 2
 
 # Workspace 3 Inkscape
-assign [class="Inkscape"]                                                           → 3
-
+assign [class="Inkscape|Tor Browser"]                                               → 3
 # Workspace 4 Gimp
 assign [class="Gimp"]                                                               → 4
 
@@ -453,7 +454,11 @@ exec --no-startup-id insync start
 exec --no-startup-id volumeicon
 
 #variety
-exec --no-startup-id variety
+# exec --no-startup-id variety
+
+# Wallpaper randomize
+# exec --no-startup-id bash -c "while true; do; feh --randomize --bg-fill /home/hargathor/.config/variety/Downloaded/*; sleep 60; done;"
+exec --no-startup-id feh --randomize --bg-fill --recursive /home/hargathor/.config/variety/Downloaded/*
 
 # clipit
 exec --no-startup-id clipit
@@ -477,8 +482,9 @@ exec --no-startup-id dunst -config ~/.config/i3/dunst.conf
 #not workspace related
 
 # terminal
-bindsym $mod+Return exec --no-startup-id gnome-terminal;focus
-bindsym control+mod1+t exec --no-startup-id gnome-terminal; focus
+bindsym $mod+Return exec --no-startup-id termite; focus
+#bindsym $mod+Return exec --no-startup-id gnome-terminal; focus
+#bindsym control+mod1+t exec --no-startup-id gnome-terminal; focus
 
 #System monitor
 bindsym control+Shift+Escape exec --no-startup-id xfce4-taskmanager;focus
@@ -615,6 +621,7 @@ for_window [class="Xfce4-appfinder"] floating enable
 for_window [class="Xfce4-settings-manager"] floating disable
 for_window [class="Xfce4-taskmanager"] floating enable
 for_window [class="Thunderbird"] floating enable
+for_window [class="remmina|Remmina"] floating enable
 
 
 for_window [instance="gimp"] floating disable
@@ -683,9 +690,9 @@ bindsym mod1+Down exec --no-startup-id variety --resume
 #####################################################################################################################
 
 # audio soft keys
-bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 0 +5%; notify-send -t 250 -u low 'Volume' 'up 5%'"
-bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 0 -5%; notify-send -t 250 -u low 'Volume' 'down 5%'"
-bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 0 toggle; notify-send -t 250 -u low 'Volume' 'Mute'"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 1 +5%; notify-send -t 250 -u low 'Volume' 'up 5%'"
+bindsym XF86AudioLowerVolume exec --no-startup-id "pactl set-sink-volume 1 -5%; notify-send -t 250 -u low 'Volume' 'down 5%'"
+bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 1 toggle; notify-send -t 250 -u low 'Volume' 'Mute'"
 bindsym XF86AudioMicMute exec --no-startup-id "pactl set-source-mute 1 toggle; notify-send -t 250 -u low 'Volume' 'Mic mute'"
 #bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer -D pulse sset Master '5%+'"
 #bindsym XF86AudioLowerVolume exec --no-startup-id "amixer -D pulse sset Master '5%-'"
@@ -705,9 +712,9 @@ bindsym XF86AudioMicMute exec --no-startup-id "pactl set-source-mute 1 toggle; n
 #################                          xbacklight                                               #################
 #####################################################################################################################
 # increase screen brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 20; notify-send -t 250 -u low 'Brightness' 'up 20%'" 
+bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 10; notify-send -t 250 -u low 'Brightness' 'up 10%'" 
 # decrease screen brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 20; notify-send -t 250 -u low 'Brightness' 'down 20%'"
+bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 10; notify-send -t 250 -u low 'Brightness' 'down 10%'"
 # bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 20 # increase screen brightness
 # bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 20 # decrease screen brightness
 
@@ -769,10 +776,10 @@ popup_during_fullscreen smart
 # want it
 
 
-for_window [class="^.*"] border pixel 2
-gaps inner 5
-gaps outer 5
-#smart_gaps on
+for_window [class="^.*"] border pixel 1
+gaps inner 10 
+gaps outer 5 
+smart_gaps on
 #smart_borders on
 
 
