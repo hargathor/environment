@@ -2,6 +2,10 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_TIME=fr_FR.UTF-8
+export VISUAL="vim"
+export PATH=$PATH:~/.local/bin
+
+setxkbmap -layout fr
 
 ## Options section
 setopt correct                                                  # Auto correct mistakes
@@ -25,6 +29,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 HISTFILE=~/.zhistory
 HISTSIZE=1000
 SAVEHIST=500
+export EDITOR=/usr/bin/nvim
+export VISUAL=/usr/bin/nvim
 #export EDITOR=/usr/bin/nano
 #export VISUAL=/usr/bin/nano
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
@@ -205,25 +211,3 @@ case $(basename "$(cat "/proc/$PPID/comm")") in
 esac
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Load the oh-my-zsh's library
-antigen use oh-my-zsh
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle gitignore
-antigen bundle pip
-antigen bundle lein
-antigen bundle command-not-found
-
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-# Extra zsh completions
-antigen bundle zsh-users/zsh-completions
-# Fish-like auto suggestions
-antigen bundle zsh-users/zsh-autosuggestions
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# Tell antigen that you're done
-antigen apply
