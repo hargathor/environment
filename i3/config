@@ -36,23 +36,27 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id dmenu_recency
 
 # launch categorized menu
-bindsym $mod+z exec --no-startup-id morc_menu
+# bindsym $mod+z exec --no-startup-id morc_menu
 
 ################################################################################################
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-#exec --no-startup-id pulseaudio
-#exec --no-startup-id pa-applet
-#bindsym $mod+Ctrl+m exec pavucontrol
+# exec --no-startup-id volumeicon
+# bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+# exec --no-startup-id pulseaudio
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id pa-applet
+bindsym $mod+Ctrl+m exec pavucontrol
 
 ################################################################################################
 
 # Screen brightness controls
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
@@ -127,11 +131,11 @@ bindsym $mod+Shift+s sticky toggle
 bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
+# bindsym $mod+Shift+minus move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
+# bindsym $mod+minus scratchpad show
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
@@ -204,8 +208,8 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 
 # my current setup
 set $firstMonitor eDP1 
-set $secondMonitor DP1-1 
-set $thirdMonitor DP1-2
+set $secondMonitor DP1-2 
+# set $thirdMonitor DP1-2
 
 #set $firstMonitor LVDS1
 #set $secondMonitor LVDS1
@@ -226,14 +230,14 @@ workspace $ws4 output $firstMonitor
 workspace $ws5 output $secondMonitor
 workspace $ws6 output $secondMonitor
 workspace $ws7 output $secondMonitor
-workspace $ws8 output $thirdMonitor
-workspace $ws9 output $thirdMonitor
-workspace $ws10 output $thirdMonitor
+workspace $ws8 output $secondMonitor
+workspace $ws9 output $secondMonitor
+workspace $ws10 output $secondMonitor
 
 # Open applications on specific workspaces
-# assign [class="Thunderbird"] $ws1
+assign [class="Thunderbird"] $ws9
 # assign [class="Pale moon"] $ws2
-# assign [class="Pcmanfm"] $ws3
+assign [class="Pcmanfm"] $ws3
 # assign [class="Skype"] $ws5
 #
 #####################################################################################################################
@@ -269,15 +273,14 @@ assign [class="Vmplayer|VirtualBox|qemu-system-x86_64"]						        → $ws7
 
 # Workspace 8 file managers
 assign [class="Nemo|Thunar|Caja|nautilus|Nautilus"]                                 → $ws8
+assign [class="Spotify|spotify"]                                                    → $ws8
+# for_window [class="Spotify"] move to workspace 10
 
 # Workspace 9 email clients
 assign [class="Geary|Evolution|Thunderbird|Mail"]                                   → $ws9
 
-# Workspace 10 music related
-assign [class="Spotify|spotify"]                                                    → $ws10
-#fix for spotify not moving to workspace 10
-for_window [class="Spotify"] move to workspace 10
-
+# Workspace 10 Remote Desktop
+assign [class="org.remmina.Remmina"]                                                → $ws10
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
@@ -306,6 +309,10 @@ for_window [class="Skype"] floating enable border normal
 for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
+for_window [class="(?i)pcmanfm"] floating enable
+for_window [class="(?i)blueman-manager"] floating enable
+for_window [class="org.remmina.Remmina"] floating enable
+for_window [class="Thunderbird"] floating enable
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -323,13 +330,13 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+x mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym l exec --no-startup-id betterlockscreen -l dimblur 
+    bindsym s exec --no-startup-id betterlockscreen -s dimblur
     bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
-    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit
+    bindsym h exec --no-startup-id systemctl suspend-then-hibernate
+    bindsym r exec --no-startup-id reboot
+    bindsym Shift+s exec --no-startup-id poweroff
 
     # exit system mode: "Enter" or "Escape"
     bindsym Return mode "default"
@@ -361,24 +368,27 @@ mode "resize" {
 }
 
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
+# bindsym $mod+9 exec --no-startup-id blurlock
+
+# Desktop screenshot
+bindsym --release Print exec "escrotum '~/Images/%Y-%m-%d_%s_$wx$h_escrotum.png' -e 'xclip -selection c -t image/png < $f'"
 
 # Autostart applications
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
-exec --no-startup-id manjaro-hello
-exec --no-startup-id nm-applet
+# exec --no-startup-id manjaro-hello
+# exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
+# exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
-exec --no-startup-id xautolock -time 10 -locker blurlock
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-
+# exec --no-startup-id xautolock -time 60 -locker blurlock
+# exec_always --no-startup-id ff-theme-util
+# exec_always --no-startup-id fix_xcursor
+#
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
 # https://i3wm.org/docs/userguide.html#xresources
@@ -391,53 +401,52 @@ exec_always --no-startup-id fix_xcursor
 # to:
 # background $term_background
 # Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
-bar {
-	i3bar_command i3bar
-	status_command i3status
-	position bottom
+# bar {
+# 	i3bar_command i3bar
+# 	status_command i3status
+# 	position bottom
+# 
+# ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+# #	tray_output primary
+# #	tray_output eDP1
+# 
+# 	bindsym button4 nop
+# 	bindsym button5 nop
+# #   font xft:URWGothic-Book 11
+# 	strip_workspace_numbers yes
+# 
+# #     disk "/" {
+# #         format = "%free"
+# #     }
+# # 
+# #     disk "/home" {
+# #         format = "%free"
+# #     }
+# # 
+# #     path_exists VPN {
+# #         # path exists when a VPN tunnel launched by nmcli/nm-applet is active
+# #         path = "/proc/sys/net/ipv4/conf/tun0"
+# #     }
+# 
+#     colors {
+#         background #222D31
+#         statusline #F9FAF9
+#         separator  #454947
+# 
+# #                      border  backgr. text
+#         focused_workspace  #F9FAF9 #16a085 #292F34
+#         active_workspace   #595B5B #353836 #FDF6E3
+#         inactive_workspace #595B5B #222D31 #EEE8D5
+#         binding_mode       #16a085 #2C2C2C #F9FAF9
+#         urgent_workspace   #16a085 #FDF6E3 #E5201D
+#     }
+# }
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
-
-	bindsym button4 nop
-	bindsym button5 nop
-#   font xft:URWGothic-Book 11
-	strip_workspace_numbers yes
-
-    colors {
-        background #222D31
-        statusline #F9FAF9
-        separator  #454947
-
-#                      border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
-    }
-}
+# Applying background picture
+exec_always --no-startup-id $HOME/.screenlayout/home.sh 
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -511,10 +520,11 @@ mode "$mode_gaps_outer" {
 
 
 ## CUSTOM SETTINGS ##
-exec --no-startup-id feh --randomize --bg-fill --recursive /home/hargathor/Images/wallpapers/Kite/sweet-strapless-sunset-session.jpg
+# exec --no-startup-id feh --randomize --bg-fill --recursive /home/hargathor/Images/wallpapers/Kite/sweet-strapless-sunset-session.jpg
 # start rofi full
 bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto Sans 13"
 
 # start rofi small
 #bindsym $mod+F12 exec --no-startup-id rofi -show run -font "Noto Sans 13"
 bindsym $mod+F12 exec --no-startup-id rofi -show combi
+
