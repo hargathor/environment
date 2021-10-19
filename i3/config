@@ -27,7 +27,7 @@ font xft:URWGothic-Book 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite; focus
+bindsym $mod+Return exec termite -e "tmux attach"; focus
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -68,11 +68,15 @@ bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym Print exec --no-startup-id i3-scrot
-bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
+# bindsym Print exec --no-startup-id i3-scrot
+# bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+# bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
+
+# spotify actions
+bindsym $mod+greater exec "sp next"
+bindsym $mod+shift+greater exec "sp prev"
+bindsym $mod+slash exec "sp play"
 
 # focus_follows_mouse no
 
@@ -128,7 +132,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+s sticky toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
 # move the currently focused window to the scratchpad
 # bindsym $mod+Shift+minus move scratchpad
@@ -208,7 +212,8 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 
 # my current setup
 set $firstMonitor eDP1 
-set $secondMonitor DP1-2 
+# set $secondMonitor DP1-2
+set $secondMonitor HDMI1 
 # set $thirdMonitor DP1-2
 
 #set $firstMonitor LVDS1
@@ -258,6 +263,8 @@ assign [class="Xed|xed|Brackets|Atom|Code|Geany"]                               
 # Workspace 3 Inkscape
 assign [class="Inkscape|Tor Browser"]                                               → $ws3
 # Workspace 4 Gimp
+assign [class="Spotify"]                                                            → $ws3
+assign [class="spotify"]                                                            → $ws3
 assign [class="Gimp"]                                                               → $ws4
 
 # Workspace 5 Images and meld
@@ -273,7 +280,6 @@ assign [class="Vmplayer|VirtualBox|qemu-system-x86_64"]						        → $ws7
 
 # Workspace 8 file managers
 assign [class="Nemo|Thunar|Caja|nautilus|Nautilus"]                                 → $ws8
-assign [class="Spotify|spotify"]                                                    → $ws8
 # for_window [class="Spotify"] move to workspace 10
 
 # Workspace 9 email clients
@@ -375,11 +381,12 @@ bindsym --release Print exec "escrotum '~/Images/%Y-%m-%d_%s_$wx$h_escrotum.png'
 
 # Autostart applications
 # exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 # exec --no-startup-id manjaro-hello
 # exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
+exec --no-startup-id flameshot
 # exec --no-startup-id clipit
 # exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
@@ -527,4 +534,3 @@ bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto San
 # start rofi small
 #bindsym $mod+F12 exec --no-startup-id rofi -show run -font "Noto Sans 13"
 bindsym $mod+F12 exec --no-startup-id rofi -show combi
-
