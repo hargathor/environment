@@ -7,12 +7,10 @@
         interactive = auto
 	status = auto
 [credential "*"]
+    helper = store --file ~/.my-credentials
 	helper = cache --timeout=604800 #one week
 [core]
         editor = vim
-[merge]
-        tool = mergetool
-[diff]
 [alias]
         alias = !git config -l | grep alias | cut -c 7-
 	c = commit
@@ -28,10 +26,33 @@
 	unadd = reset HEAD
 [push]
 	default = simple
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
 [user]
-	email = 3949704+hargathor@users.noreply.github.com
+	email = romain@lrasc.fr
 	name = hargathor
+[credential]
+    helper = store --file ~/.my-credentials
+[merge]
+    tool = meld
+
+[mergetool "meld"]
+    cmd = meld --auto-merge \"$LOCAL\" \"$BASE\" \"$REMOTE\" --output \"$MERGED\" --label \"MERGE (REMOTE BASE MY)\"
+    trustExitCode = false
+
+[mergetool]
+    # don't ask if we want to skip merge
+    prompt = false
+
+    # don't create backup *.orig files
+    keepBackup = false
+
+# ------------------ D I F F -------------------------
+[diff]
+    guitool = meld
+
+[difftool "meld"]
+    cmd = meld \"$LOCAL\" \"$REMOTE\" --label \"DIFF (ORIGINAL MY)\"
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

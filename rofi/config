@@ -2,5 +2,5 @@ rofi.combi-modi:    window,drun,ssh
 rofi.theme:         solarized
 rofi.font:          hack 10
 rofi.modi:          combi
-rofi.terminal:      termite
+rofi.terminal:      alacritty
 rofi.ssh-command:   {terminal} -e "{ssh-client} {host}"
