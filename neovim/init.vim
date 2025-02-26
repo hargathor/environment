@@ -5,7 +5,7 @@
 " Last Modified By  : hargathor <You@email>
 set nocompatible
 set t_Co=256
-set bg=dark
+" set bg=dark
 
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
@@ -32,7 +32,7 @@ Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 
 " enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
+" autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " IMPORTANTE: :help Ncm2PopupOpen for more information
 set completeopt=noinsert,menuone,noselect,preview
@@ -44,6 +44,7 @@ Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-jedi'
 Plug 'ncm2/ncm2-github'
+Plug 'davidhalter/jedi-vim'
 
 " Snippets
 Plug 'ncm2/ncm2-ultisnips'
@@ -104,6 +105,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'tell-k/vim-autopep8'
 
 Plug 'google/yapf'
+
+Plug 'othree/html5.vim'
 
 " Initialize plugin system
 call plug#end()
